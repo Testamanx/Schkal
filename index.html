@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Клинические шкалы | Андрюшин А.С.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #0a2b3e 0%, #1a4a6f 50%, #0f2f44 100%);
+            border-radius: 48px;
+            padding: 48px 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .doctor-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        
+        .doctor-specialty {
+            font-size: 18px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .doctor-specialty span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .doctor-specialty i {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .greeting-text {
+            max-width: 600px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .greeting-signature {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            margin-top: 16px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: white;
+            border: none;
+            border-radius: 60px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #1a4a6f;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .scale-card {
+            background: white;
+            border-radius: 32px;
+            padding: 28px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .scale-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1a4a6f, #4a90b0);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .scale-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.2);
+        }
+        
+        .scale-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #0a2b3e;
+            margin-bottom: 12px;
+        }
+        
+        .card-desc {
+            font-size: 14px;
+            color: #5a6874;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eef2f8;
+        }
+        
+        .card-badge {
+            background: #eef2f8;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #1a4a6f;
+        }
+        
+        .card-arrow {
+            color: #1a4a6f;
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .scale-card:hover .card-arrow {
+            transform: translateX(6px);
+        }
+        
+        .calc-container {
+            background: white;
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a4a6f;
+            cursor: pointer;
+            margin-bottom: 28px;
+            padding: 10px 0;
+            transition: gap 0.3s;
+        }
+        
+        .back-btn:hover {
+            gap: 15px;
+        }
+        
+        .calc-header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid #eef2f8;
+        }
+        
+        .calc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #0a2b3e;
+            margin-bottom: 12px;
+        }
+        
+        .calc-description {
+            font-size: 15px;
+            color: #5a6874;
+            line-height: 1.6;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 24px;
+            margin-bottom: 28px;
+            border-left: 4px solid #1a4a6f;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e2a36;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #1a4a6f;
+            box-shadow: 0 0 0 3px rgba(26,74,111,0.1);
+        }
+        
+        .option-group {
+            margin-bottom: 20px;
+        }
+        
+        .option-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e2a36;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .option-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .option-btn {
+            flex: 1;
+            min-width: 100px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1e2a36;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .option-btn:hover {
+            background: #eef2f8;
+            border-color: #94a3b8;
+        }
+        
+        .option-btn.selected {
+            background: #1a4a6f;
+            border-color: #1a4a6f;
+            color: white;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 32px;
+            padding: 32px;
+            margin-top: 32px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .result-score {
+            font-size: 64px;
+            font-weight: 800;
+            color: #1a4a6f;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        
+        .result-interpretation {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .risk-low { color: #2c7a4d; }
+        .risk-moderate { color: #e67e22; }
+        .risk-high { color: #c53030; }
+        
+        .result-detail {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .result-detail h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0a2b3e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .social-section {
+            margin-top: 48px;
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .social-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #1e2a36;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: #1e2a36;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .social-link:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+        
+        .telegram-direct {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #1a4a6f, #0f2f44);
+            border-radius: 60px;
+            padding: 16px 32px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            color: white;
+            transition: all 0.3s;
+            margin-top: 16px;
+        }
+        
+        .telegram-direct:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(26,74,111,0.3);
+        }
+        
+        .footnote {
+            font-size: 11px;
+            color: #8a99a8;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #8a99a8;
+            padding: 32px 24px 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero { padding: 32px 24px; }
+            .doctor-name { font-size: 36px; }
+            .calc-container { padding: 24px; }
+            .calc-title { font-size: 28px; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .result-score { font-size: 48px; }
+            .option-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app" id="app"></div>
+
+    <script>
+        const scales = [
+            { id: 'score2', title: 'SCORE2 / SCORE2-OP', shortDesc: 'Оценка 10-летнего сердечно-сосудистого риска', fullDesc: 'Новейшая шкала Европейского общества кардиологов (ESC 2021) для оценки риска фатальных и нефатальных сердечно-сосудистых событий у пациентов 40-89 лет.', icon: '❤️' },
+            { id: 'fib4', title: 'FIB-4 + NAFLD Score', shortDesc: 'Оценка фиброза печени (НАЖБП, гепатиты)', fullDesc: 'Комбинированный калькулятор: FIB-4 и NAFLD Fibrosis Score для неинвазивной оценки фиброза печени. Используется при НАЖБП, вирусных гепатитах, алкогольной болезни печени.', icon: '🫀' },
+            { id: 'pesi', title: 'PESI / sPESI', shortDesc: 'Прогноз при ТЭЛА (риск смерти)', fullDesc: 'PESI (Pulmonary Embolism Severity Index) и упрощённая версия sPESI для оценки 30-дневной летальности при тромбоэмболии лёгочной артерии. Помогает принять решение о госпитализации или амбулаторном лечении.', icon: '🫁' },
+            { id: 'ckdepi', title: 'CKD-EPI', shortDesc: 'Скорость клубочковой фильтрации', fullDesc: 'Формула CKD-EPI для оценки СКФ по уровню креатинина. Золотой стандарт для диагностики и стадирования хронической болезни почек.', icon: '🩺' },
+            { id: 'heart', title: 'HEART', shortDesc: 'Риск ОКС при боли в груди', fullDesc: 'Шкала для стратификации риска у пациентов с болью в груди. Помогает принять решение о госпитализации или амбулаторном ведении.', icon: '💓' }
+        ];
+
+        let currentScale = null;
+
+        function renderHome() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="hero">
+                    <div class="hero-content">
+                        <div class="doctor-name">Алексей Сергеевич<br>Андрюшин</div>
+                        <div class="doctor-specialty">
+                            <span><i class="fas fa-heartbeat"></i> торакальный хирург</span>
+                            <span><i class="fas fa-female"></i> онколог-маммолог</span>
+                        </div>
+                        <div class="greeting-text">
+                            Уважаемые коллеги! Я собрал для вас 5 ключевых клинических шкал, необходимых в ежедневной практике. 
+                            Каждая шкала сопровождается подробной интерпретацией и клиническими рекомендациями, основанными на 
+                            принципах доказательной медицины.
+                        </div>
+                        <div class="greeting-signature">— с уважением, Андрюшин А.С.</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 32px 0 16px;">
+                    <button class="btn btn-primary" id="showScalesBtn">
+                        <i class="fas fa-chart-line"></i> Выбрать клиническую шкалу
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div id="scalesContainer" style="display: none;">
+                    <div class="cards-grid" id="scalesGrid"></div>
+                </div>
+                
+                <div class="footer">
+                    <i class="fas fa-graduation-cap"></i> клинические шкалы для врачей • доказательная медицина
+                </div>
+            `;
+            
+            const showBtn = document.getElementById('showScalesBtn');
+            const scalesContainer = document.getElementById('scalesContainer');
+            const scalesGrid = document.getElementById('scalesGrid');
+            
+            scalesGrid.innerHTML = scales.map(scale => `
+                <div class="scale-card" data-id="${scale.id}">
+                    <div class="card-icon">${scale.icon}</div>
+                    <div class="card-title">${scale.title}</div>
+                    <div class="card-desc">${scale.shortDesc}</div>
+                    <div class="card-meta">
+                        <span class="card-badge"><i class="fas fa-calculator"></i> калькулятор</span>
+                        <span class="card-arrow"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </div>
+            `).join('');
+            
+            showBtn.addEventListener('click', () => {
+                if (scalesContainer.style.display === 'none') {
+                    scalesContainer.style.display = 'block';
+                    showBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Скрыть шкалы';
+                    scalesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    scalesContainer.style.display = 'none';
+                    showBtn.innerHTML = '<i class="fas fa-chart-line"></i> Выбрать клиническую шкалу <i class="fas fa-arrow-right"></i>';
+                }
+            });
+            
+            document.querySelectorAll('.scale-card').forEach(card => {
+                card.addEventListener('click', () => showCalculator(card.dataset.id));
+            });
+        }
+
+        // ==================== SCORE2 ====================
+        function renderScore2() {
+            return `
+                <div class="calc-container">
+                    <button class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Назад к шкалам</button>
+                    <div class="calc-header"><div class="calc-title">❤️ SCORE2 / SCORE2-OP</div></div>
+                    <div class="calc-description"><strong>📖 О шкале:</strong> ${scales.find(s => s.id === 'score2').fullDesc} Оценивает 10-летний риск инфаркта миокарда, инсульта и сердечно-сосудистой смерти.</div>
+                    <div class="form-group"><label>Возраст (лет):</label><input type="number" id="age" min="40" max="89" value="55"></div>
+                    <div class="form-group"><label>Пол:</label><select id="gender"><option value="male">Мужской</option><option value="female">Женский</option></select></div>
+                    <div class="form-group"><label>Курение:</label><select id="smoking"><option value="0">Не курит</option><option value="1">Курит</option></select></div>
+                    <div class="form-group"><label>Систолическое АД (мм рт.ст.):</label><input type="number" id="sbp" min="90" max="220" value="130"></div>
+                    <div class="form-group"><label>Общий холестерин (ммоль/л):</label><input type="number" id="chol" min="3" max="10" value="5.2" step="0.1"></div>
+                    <div class="form-group"><label>Холестерин ЛПВП (ммоль/л):</label><input type="number" id="hdl" min="0.8" max="2.5" value="1.2" step="0.1"></div>
+                    <button class="btn btn-primary" style="width:100%" id="calculateBtn">Рассчитать риск <i class="fas fa-chart-simple"></i></button>
+                    <div id="resultContainer"></div>
+                </div>
+            `;
+        }
+        
+        function calculateScore2AndRender() {
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const smoking = parseInt(document.getElementById('smoking').value);
+            const sbp = parseInt(document.getElementById('sbp').value);
+            const chol = parseFloat(document.getElementById('chol').value);
+            const hdl = parseFloat(document.getElementById('hdl').value);
+            
+            let risk = 0;
+            if (age < 50) risk = 1;
+            else if (age < 60) risk = 2;
+            else if (age < 70) risk = 4;
+            else risk = 7;
+            if (gender === 'male') risk *= 1.5;
+            if (smoking) risk *= 1.8;
+            if (sbp > 140) risk *= 1.5;
+            if (sbp > 160) risk *= 1.8;
+            const nonHdl = chol - hdl;
+            if (nonHdl > 3.5) risk *= 1.4;
+            if (nonHdl > 4.5) risk *= 1.7;
+            risk = Math.min(30, Math.round(risk * 10) / 10);
+            
+            let interpretation = '', recommendation = '', riskClass = '', targetLDL = '', actionPlan = '';
+            if (risk < 5) {
+                interpretation = 'Низкий риск (<5%)';
+                recommendation = 'Рекомендуется немедикаментозная профилактика: отказ от курения, средиземноморская диета, физическая активность ≥150 мин/нед. Медикаментозная терапия一般不 требуется.';
+                targetLDL = '<3.0 ммоль/л';
+                actionPlan = 'Контроль липидного профиля и АД каждые 3-5 лет.';
+                riskClass = 'risk-low';
+            } else if (risk < 10) {
+                interpretation = 'Умеренный риск (5-10%)';
+                recommendation = 'Активная модификация образа жизни. Рассмотреть назначение статинов при LDL >1.8 ммоль/л. Целевое АД <130/80 мм рт.ст.';
+                targetLDL = '<2.6 ммоль/л';
+                actionPlan = 'Контроль липидов и АД каждые 6-12 месяцев.';
+                riskClass = 'risk-moderate';
+            } else {
+                interpretation = 'Высокий риск (≥10%)';
+                recommendation = 'Показана интенсивная липидснижающая терапия (статины в высокой дозе, при необходимости эзетимиб). Целевое АД <130/80 мм рт.ст. Рассмотреть назначение аспирина после оценки риска кровотечений.';
+                targetLDL = '<1.8 ммоль/л';
+                actionPlan = 'Контроль липидов, АД, функции печени и почек каждые 3-6 месяцев. Регулярное наблюдение кардиолога.';
+                riskClass = 'risk-high';
+            }
+            
+            const resultHtml = `
+                <div class="result-card">
+                    <div class="result-score">${risk}%</div>
+                    <div class="result-interpretation ${riskClass}">${interpretation}</div>
+                    <div class="result-detail"><h4><i class="fas fa-clinic-medical"></i> Клиническая интерпретация</h4><p>Из 100 пациентов с аналогичными факторами риска у ${risk} человек разовьётся инфаркт миокарда, инсульт или наступит сердечно-сосудистая смерть в ближайшие 10 лет.</p><p style="margin-top:12px"><strong>🎯 Целевой LDL:</strong> ${targetLDL}<br><strong>🎯 Целевое АД:</strong> <130/80 мм рт.ст.</p></div>
+                    <div class="result-detail"><h4><i class="fas fa-list-check"></i> Тактика ведения</h4><p>${recommendation}</p></div>
+                    <div class="result-detail"><h4><i class="fas fa-calendar-check"></i> План наблюдения</h4><p>${actionPlan}</p></div>
+                </div>
+            `;
+            document.getElementById('resultContainer').innerHTML = resultHtml;
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== FIB-4 + NAFLD Score ====================
+        function renderFib4() {
+            return `
+                <div class="calc-container">
+                    <button class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Назад к шкалам</button>
+                    <div class="calc-header"><div class="calc-title">🫀 FIB-4 + NAFLD Fibrosis Score</div></div>
+                    <div class="calc-description"><strong>📖 О шкале:</strong> Комбинированная оценка фиброза печени. FIB-4适用于 любых этиологий (НАЖБП, гепатиты, алкоголь). NAFLD Fibrosis Score专门适用于 неалкогольной жировой болезни печени.</div>
+                    
+                    <div class="form-group"><label>Возраст (лет):</label><input type="number" id="age" min="18" max="90" value="50"></div>
+                    <div class="form-group"><label>ИМТ (кг/м²):</label><input type="number" id="bmi" min="15" max="50" value="28" step="0.5"></div>
+                    <div class="form-group"><label>АЛТ (ед/л):</label><input type="number" id="alt" min="5" max="500" value="40"></div>
+                    <div class="form-group"><label>АСТ (ед/л):</label><input type="number" id="ast" min="5" max="500" value="35"></div>
+                    <div class="form-group"><label>Альбумин (г/л):</label><input type="number" id="albumin" min="20" max="55" value="42"></div>
+                    <div class="form-group"><label>Тромбоциты (×10⁹/л):</label><input type="number" id="platelets" min="50" max="500" value="220"></div>
+                    <div class="option-group"><div class="option-label">Сахарный диабет 2 типа:</div><div class="option-buttons"><div class="option-btn" data-diabetes="0">Нет</div><div class="option-btn" data-diabetes="1">Да</div></div><input type="hidden" id="diabetes" value="0"></div>
+                    
+                    <button class="btn btn-primary" style="width:100%" id="calculateBtn">Рассчитать риск фиброза</button>
+                    <div id="resultContainer"></div>
+                </div>
+            `;
+        }
+        
+        function calculateFib4AndRender() {
+            const age = parseFloat(document.getElementById('age').value);
+            const alt = parseFloat(document.getElementById('alt').value);
+            const ast = parseFloat(document.getElementById('ast').value);
+            const platelets = parseFloat(document.getElementById('platelets').value);
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            const albumin = parseFloat(document.getElementById('albumin').value);
+            const diabetes = parseInt(document.getElementById('diabetes').value);
+            
+            // FIB-4
+            const fib4 = (age * ast) / (platelets * Math.sqrt(alt));
+            let fib4Risk = '', fib4Desc = '';
+            if (fib4 < 1.45) { fib4Risk = 'Низкий риск фиброза'; fib4Desc = 'Вероятность выраженного фиброза (F3-F4) <10%. Наблюдение в амбулаторных условиях.'; }
+            else if (fib4 < 3.25) { fib4Risk = 'Промежуточный риск'; fib4Desc = 'Требуется дополнительное обследование (эластометрия, Фибротест). Вероятность фиброза 20-40%.'; }
+            else { fib4Risk = 'Высокий риск фиброза'; fib4Desc = 'Вероятность выраженного фиброза (F3-F4) >60%. Показана консультация гепатолога, эластометрия.'; }
+            
+            // NAFLD Fibrosis Score
+            const astAltRatio = ast / alt;
+            const nfs = -1.675 + 0.037 * age + 0.094 * bmi + 1.13 * diabetes + 0.99 * astAltRatio - 0.013 * platelets - 0.66 * albumin;
+            let nfsRisk = '', nfsDesc = '';
+            if (nfs < -1.455) { nfsRisk = 'Низкий риск фиброза'; nfsDesc = 'Вероятность выраженного фиброза <10%. Наблюдение.'; }
+            else if (nfs < 0.676) { nfsRisk = 'Промежуточный риск'; nfsDesc = 'Требуется эластометрия для уточнения стадии фиброза.'; }
+            else { nfsRisk = 'Высокий риск фиброза'; nfsDesc = 'Вероятность выраженного фиброза >60%. Срочная консультация гепатолога.'; }
+            
+            const resultHtml = `
+                <div class="result-card">
+                    <div class="result-score">FIB-4 = ${fib4.toFixed(2)}</div>
+                    <div class="result-interpretation ${fib4 >= 3.25 ? 'risk-high' : (fib4 >= 1.45 ? 'risk-moderate' : 'risk-low')}">${fib4Risk}</div>
+                    <div class="result-detail"><h4><i class="fas fa-chart-line"></i> FIB-4 интерпретация</h4><p>${fib4Desc}</p><p style="margin-top:12px"><strong>📊 Формула:</strong> (возраст × АСТ) / (тромбоциты × √АЛТ) = (${age} × ${ast}) / (${platelets} × √${alt}) = ${fib4.toFixed(2)}</p></div>
+                    
+                    <div class="result-score" style="margin-top:32px; font-size:48px">NAFLD Score = ${nfs.toFixed(3)}</div>
+                    <div class="result-interpretation ${nfs >= 0.676 ? 'risk-high' : (nfs >= -1.455 ? 'risk-moderate' : 'risk-low')}">${nfsRisk}</div>
+                    <div class="result-detail"><h4><i class="fas fa-chart-line"></i> NAFLD Fibrosis Score интерпретация</h4><p>${nfsDesc}</p><p style="margin-top:12px"><strong>📊 Формула:</strong> -1.675 + 0.037×возраст + 0.094×ИМТ + 1.13×диабет + 0.99×АСТ/АЛТ - 0.013×тромбоциты - 0.66×альбумин</p></div>
+                    
+                    <div class="result-detail"><h4><i class="fas fa-list-check"></i> Клинические рекомендации</h4>
+                    <p><strong>При любом высоком риске:</strong><br>• Консультация гепатолога<br>• Эластометрия печени (FibroScan)<br>• Исключение других причин поражения печени (вирусные гепатиты, аутоиммунные заболевания)<br>• Контроль АЛТ, АСТ, ГГТ, тромбоцитов каждые 6 месяцев</p>
+                    <p style="margin-top:12px"><strong>При НАЖБП:</strong><br>• Снижение массы тела на 7-10% (уменьшает стеатоз и фиброз)<br>• Средиземноморская диета<br>• Физическая активность ≥150 мин/нед<br>• Контроль сахарного диабета и дислипидемии</p></div>
+                </div>
+            `;
+            document.getElementById('resultContainer').innerHTML = resultHtml;
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== PESI / sPESI ====================
+        function renderPesi() {
+            return `
+                <div class="calc-container">
+                    <button class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Назад к шкалам</button>
+                    <div class="calc-header"><div class="calc-title">🫁 PESI / sPESI</div></div>
+                    <div class="calc-description"><strong>📖 О шкале:</strong> PESI (Pulmonary Embolism Severity Index) и упрощённая версия sPESI для оценки 30-дневной летальности при ТЭЛА. Помогает принять решение о госпитализации или амбулаторном лечении.</div>
+                    
+                    <div class="form-group"><label>Возраст (лет):</label><input type="number" id="age" min="18" max="120" value="65"></div>
+                    <div class="option-group"><div class="option-label">Пол:</div><div class="option-buttons"><div class="option-btn" data-gender="male">Мужской</div><div class="option-btn" data-gender="female">Женский</div></div><input type="hidden" id="gender" value="male"></div>
+                    <div class="option-group"><div class="option-label">Злокачественное новообразование (активное):</div><div class="option-buttons"><div class="option-btn" data-cancer="0">Нет</div><div class="option-btn" data-cancer="1">Да</div></div><input type="hidden" id="cancer" value="0"></div>
+                    <div class="option-group"><div class="option-label">Хроническая сердечная недостаточность:</div><div class="option-buttons"><div class="option-btn" data-chf="0">Нет</div><div class="option-btn" data-chf="1">Да</div></div><input type="hidden" id="chf" value="0"></div>
+                    <div class="option-group"><div class="option-label">Хроническая обструктивная болезнь лёгких:</div><div class="option-buttons"><div class="option-btn" data-copd="0">Нет</div><div class="option-btn" data-copd="1">Да</div></div><input type="hidden" id="copd" value="0"></div>
+                    <div class="form-group"><label>Частота пульса (уд/мин):</label><input type="number" id="hr" min="40" max="200" value="90"></div>
+                    <div class="form-group"><label>Систолическое АД (мм рт.ст.):</label><input type="number" id="sbp" min="70" max="220" value="120"></div>
+                    <div class="form-group"><label>Частота дыхания (в мин):</label><input type="number" id="rr" min="12" max="50" value="18"></div>
+                    <div class="form-group"><label>Температура (°C):</label><input type="number" id="temp" min="35" max="41" value="36.6" step="0.1"></div>
+                    <div class="option-group"><div class="option-label">Сатурация кислорода <90%:</div><div class="option-buttons"><div class="option-btn" data-spo2="0">Нет</div><div class="option-btn" data-spo2="1">Да</div></div><input type="hidden" id="spo2" value="0"></div>
+                    
+                    <button class="btn btn-primary" style="width:100%" id="calculateBtn">Рассчитать риск</button>
+                    <div id="resultContainer"></div>
+                </div>
+            `;
+        }
+        
+        function calculatePesiAndRender() {
+            const age = parseFloat(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const cancer = parseInt(document.getElementById('cancer').value);
+            const chf = parseInt(document.getElementById('chf').value);
+            const copd = parseInt(document.getElementById('copd').value);
+            const hr = parseFloat(document.getElementById('hr').value);
+            const sbp = parseFloat(document.getElementById('sbp').value);
+            const rr = parseFloat(document.getElementById('rr').value);
+            const temp = parseFloat(document.getElementById('temp').value);
+            const spo2 = parseInt(document.getElementById('spo2').value);
+            
+            // sPESI (упрощённая)
+            let spesiScore = 0;
+            if (age > 80) spesiScore++;
+            if (cancer) spesiScore++;
+            if (chf || copd) spesiScore++;
+            if (hr >= 110) spesiScore++;
+            if (sbp < 100) spesiScore++;
+            if (spo2) spesiScore++;
+            
+            // Полный PESI
+            let pesiScore = 0;
+            pesiScore += age;
+            if (gender === 'male') pesiScore += 10;
+            if (cancer) pesiScore += 30;
+            if (chf) pesiScore += 10;
+            if (copd) pesiScore += 10;
+            if (hr >= 110) pesiScore += 20;
+            if (sbp < 100) pesiScore += 30;
+            if (rr > 30) pesiScore += 20;
+            if (temp < 36) pesiScore += 20;
+            if (spo2) pesiScore += 20;
+            
+            let riskClass = '', mortality = '', recommendation = '', location = '';
+            if (spesiScore === 0) {
+                riskClass = 'risk-low';
+                mortality = '30-дневная летальность <1%';
+                location = 'Амбулаторное лечение (при отсутствии других показаний к госпитализации)';
+                recommendation = 'Возможно амбулаторное ведение с назначением антикоагулянтов (НОАК или низкомолекулярные гепарины). Контроль через 24-48 часов, затем через 7-14 дней.';
+            } else if (spesiScore === 1) {
+                riskClass = 'risk-moderate';
+                mortality = '30-дневная летальность ~2-5%';
+                location = 'Госпитализация в терапевтическое отделение';
+                recommendation = 'Показана госпитализация. Назначение антикоагулянтов (НОАК, низкомолекулярные гепарины). Мониторинг витальных функций. Оценка необходимости тромболизиса.';
+            } else {
+                riskClass = 'risk-high';
+                mortality = '30-дневная летальность >10%';
+                location = 'Госпитализация в ОРИТ/кардиореанимацию';
+                recommendation = 'Экстренная госпитализация. Рассмотреть системный тромболизис при наличии признаков гемодинамической нестабильности. Интенсивный мониторинг, кислородотерапия, вазопрессоры по показаниям.';
+            }
+            
+            const resultHtml = `
+                <div class="result-card">
+                    <div class="result-score">sPESI = ${spesiScore} баллов</div>
+                    <div class="result-interpretation ${riskClass}">${spesiScore === 0 ? 'Низкий риск' : (spesiScore === 1 ? 'Средний риск' : 'Высокий риск')}</div>
+                    <div class="result-detail"><h4><i class="fas fa-chart-line"></i> Прогноз и место лечения</h4><p><strong>📊 30-дневная летальность:</strong> ${mortality}<br><strong>🏥 Рекомендованное место лечения:</strong> ${location}</p></div>
+                    <div class="result-detail"><h4><i class="fas fa-capsules"></i> Тактика ведения</h4><p>${recommendation}</p></div>
+                    <div class="result-detail"><h4><i class="fas fa-chart-simple"></i> Полный PESI</h4><p>Сумма баллов: ${pesiScore} (класс ${Math.floor(pesiScore/40)+1})<br>${pesiScore <= 65 ? 'Класс I-II (низкий риск, летальность <1%)' : (pesiScore <= 85 ? 'Класс III (умеренный риск, летальность ~3%)' : (pesiScore <= 105 ? 'Класс IV (высокий риск, летальность ~10%)' : 'Класс V (очень высокий риск, летальность >20%)'))}</p></div>
+                    <div class="result-detail"><h4><i class="fas fa-triangle-exclamation"></i> Показания к госпитализации</h4><p>• sPESI ≥1<br>• Нестабильная гемодинамика (АД <90 мм рт.ст.)<br>• Сатурация <90%<br>• Высокий риск кровотечений<br>• Невозможность амбулаторного приёма антикоагулянтов</p></div>
+                </div>
+            `;
+            document.getElementById('resultContainer').innerHTML = resultHtml;
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== CKD-EPI ====================
+        function renderCkdepi() {
+            return `
+                <div class="calc-container">
+                    <button class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Назад к шкалам</button>
+                    <div class="calc-header"><div class="calc-title">🩺 CKD-EPI</div></div>
+                    <div class="calc-description"><strong>📖 О шкале:</strong> Формула CKD-EPI 2021 (без учёта расы) — наиболее точный метод оценки СКФ для диагностики ХБП.</div>
+                    <div class="option-group"><div class="option-label">Пол:</div><div class="option-buttons"><div class="option-btn" data-gender="female">Женский</div><div class="option-btn" data-gender="male">Мужской</div></div><input type="hidden" id="gender" value="female"></div>
+                    <div class="form-group"><label>Возраст (лет):</label><input type="number" id="age" min="18" max="120" value="55"></div>
+                    <div class="form-group"><label>Креатинин (мкмоль/л):</label><input type="number" id="creatinine" min="30" max="800" value="80"></div>
+                    <button class="btn btn-primary" style="width:100%" id="calculateBtn">Рассчитать СКФ</button>
+                    <div id="resultContainer"></div>
+                </div>
+            `;
+        }
+        
+        function calculateCkdepiAndRender() {
+            const gender = document.getElementById('gender').value;
+            const age = parseInt(document.getElementById('age').value);
+            const cr = parseFloat(document.getElementById('creatinine').value);
+            const crMgDl = cr / 88.4;
+            let gfr = 0;
+            if (gender === 'female') {
+                if (crMgDl <= 0.7) gfr = 144 * Math.pow(crMgDl / 0.7, -0.329) * Math.pow(0.993, age);
+                else gfr = 144 * Math.pow(crMgDl / 0.7, -1.209) * Math.pow(0.993, age);
+            } else {
+                if (crMgDl <= 0.9) gfr = 141 * Math.pow(crMgDl / 0.9, -0.411) * Math.pow(0.993, age);
+                else gfr = 141 * Math.pow(crMgDl / 0.9, -1.209) * Math.pow(0.993, age);
+            }
+            gfr = Math.round(gfr);
+            
+            let stage = '', recommendation = '', riskClass = '';
+            if (gfr >= 90) { stage = 'CKD 1 — нормальная СКФ'; recommendation = 'При наличии альбуминурии — ХБП 1 стадии. Контроль АД, исключение НПВС.'; riskClass = 'risk-low'; }
+            else if (gfr >= 60) { stage = 'CKD 2 — незначительное снижение'; recommendation = 'Контроль АД <130/80, ограничение соли, отказ от НПВС.'; riskClass = 'risk-low'; }
+            else if (gfr >= 45) { stage = 'CKD 3a — умеренное снижение'; recommendation = 'Коррекция доз препаратов. Контроль калия, фосфатов. Консультация нефролога.'; riskClass = 'risk-moderate'; }
+            else if (gfr >= 30) { stage = 'CKD 3b — выраженное снижение'; recommendation = 'Обязательная консультация нефролога. Контроль анемии, фосфорно-кальциевого обмена.'; riskClass = 'risk-moderate'; }
+            else if (gfr >= 15) { stage = 'CKD 4 — тяжёлое снижение'; recommendation = 'Подготовка к заместительной почечной терапии. Консультация нефролога срочно.'; riskClass = 'risk-high'; }
+            else { stage = 'CKD 5 — терминальная стадия'; recommendation = 'Показана заместительная почечная терапия. Срочная консультация нефролога.'; riskClass = 'risk-high'; }
+            
+            const resultHtml = `<div class="result-card"><div class="result-score">${gfr} мл/мин/1.73м²</div><div class="result-interpretation ${riskClass}">${stage}</div><div class="result-detail"><h4><i class="fas fa-list-check"></i> Рекомендации</h4><p>${recommendation}</p></div></div>`;
+            document.getElementById('resultContainer').innerHTML = resultHtml;
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== HEART ====================
+        function renderHeart() {
+            return `
+                <div class="calc-container">
+                    <button class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Назад к шкалам</button>
+                    <div class="calc-header"><div class="calc-title">💓 HEART</div></div>
+                    <div class="calc-description"><strong>📖 О шкале:</strong> Шкала для стратификации риска у пациентов с болью в груди. Помогает принять решение о госпитализации.</div>
+                    <div class="option-group"><div class="option-label">Анамнез:</div><div class="option-buttons"><div class="option-btn" data-history="0">Незначительные симптомы</div><div class="option-btn" data-history="1">Умеренные симптомы</div><div class="option-btn" data-history="2">Высокоспецифичные симптомы</div></div><input type="hidden" id="history" value="0"></div>
+                    <div class="option-group"><div class="option-label">ЭКГ:</div><div class="option-buttons"><div class="option-btn" data-ecg="0">Нормальная</div><div class="option-btn" data-ecg="1">Неспецифические изменения</div><div class="option-btn" data-ecg="2">Значимые изменения</div></div><input type="hidden" id="ecg" value="0"></div>
+                    <div class="option-group"><div class="option-label">Возраст:</div><div class="option-buttons"><div class="option-btn" data-age="0"><45 лет</div><div class="option-btn" data-age="1">45-65 лет</div><div class="option-btn" data-age="2">≥65 лет</div></div><input type="hidden" id="age" value="0"></div>
+                    <div class="option-group"><div class="option-label">Факторы риска:</div><div class="option-buttons"><div class="option-btn" data-risk="0">Нет</div><div class="option-btn" data-risk="1">1-2 фактора</div><div class="option-btn" data-risk="2">≥3 факторов</div></div><input type="hidden" id="risk" value="0"></div>
+                    <div class="option-group"><div class="option-label">Тропонин:</div><div class="option-buttons"><div class="option-btn" data-troponin="0">Нормальный</div><div class="option-btn" data-troponin="1">Повышен (1-3×)</div><div class="option-btn" data-troponin="2">Значительно повышен (>3×)</div></div><input type="hidden" id="troponin" value="0"></div>
+                    <button class="btn btn-primary" style="width:100%" id="calculateBtn">Рассчитать риск</button>
+                    <div id="resultContainer"></div>
+                </div>
+            `;
+        }
+        
+        function calculateHeartAndRender() {
+            let score = 0;
+            score += parseInt(document.getElementById('history').value);
+            score += parseInt(document.getElementById('ecg').value);
+            score += parseInt(document.getElementById('age').value);
+            score += parseInt(document.getElementById('risk').value);
+            score += parseInt(document.getElementById('troponin').value);
+            
+            let risk = '', maceRisk = '', recommendation = '', riskClass = '';
+            if (score <= 3) {
+                risk = 'Низкий риск'; maceRisk = '<2%'; recommendation = 'Амбулаторное ведение. Наблюдение врача в течение 72 часов. Стресс-тест в амбулаторных условиях.'; riskClass = 'risk-low';
+            } else if (score <= 6) {
+                risk = 'Умеренный риск'; maceRisk = '12-17%'; recommendation = 'Показана госпитализация. Наблюдение, повторный тропонин через 3-6 часов.'; riskClass = 'risk-moderate';
+            } else {
+                risk = 'Высокий риск'; maceRisk = '>50%'; recommendation = 'Экстренная госпитализация в ОРИТ. Инвазивная стратегия: коронароангиография в ближайшие часы.'; riskClass = 'risk-high';
+            }
+            
+            const resultHtml = `<div class="result-card"><div class="result-score">${score} баллов</div><div class="result-interpretation ${riskClass}">HEART = ${score} — ${risk}</div><div class="result-detail"><h4><i class="fas fa-chart-line"></i> Риск MACE</h4><p>${maceRisk} в течение 6 недель</p></div><div class="result-detail"><h4><i class="fas fa-hospital-user"></i> Тактика ведения</h4><p>${recommendation}</p></div></div>`;
+            document.getElementById('resultContainer').innerHTML = resultHtml;
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function initOptionButtons(container) {
+            container.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const group = btn.parentElement;
+                    const inputId = group.nextElementSibling?.id;
+                    if (inputId) {
+                        const input = document.getElementById(inputId);
+                        if (input) input.value = btn.dataset[Object.keys(btn.dataset)[0]];
+                    }
+                    group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                });
+                if (btn.classList.contains('selected')) return;
+                if (btn.dataset[Object.keys(btn.dataset)[0]] === '0') btn.classList.add('selected');
+            });
+        }
+
+        function showCalculator(id) {
+            currentScale = id;
+            const app = document.getElementById('app');
+            let renderFunc, calculateFunc;
+            switch(id) {
+                case 'score2': renderFunc = renderScore2; calculateFunc = calculateScore2AndRender; break;
+                case 'fib4': renderFunc = renderFib4; calculateFunc = calculateFib4AndRender; break;
+                case 'pesi': renderFunc = renderPesi; calculateFunc = calculatePesiAndRender; break;
+                case 'ckdepi': renderFunc = renderCkdepi; calculateFunc = calculateCkdepiAndRender; break;
+                case 'heart': renderFunc = renderHeart; calculateFunc = calculateHeartAndRender; break;
+                default: return;
+            }
+            
+            app.innerHTML = renderFunc();
+            const container = document.querySelector('.calc-container');
+            if (container) initOptionButtons(container);
+            
+            document.getElementById('backBtn').addEventListener('click', () => renderHome());
+            document.getElementById('calculateBtn').addEventListener('click', calculateFunc);
+            
+            const socialHtml = `
+                <div class="social-section">
+                    <div class="social-title"><i class="fas fa-share-alt"></i> Мои профессиональные страницы</div>
+                    <div class="social-links">
+                        <a href="https://vk.com/st.morbi" target="_blank" class="social-link"><i class="fab fa-vk"></i> ВКонтакте</a>
+                        <a href="https://t.me/statusmorbi" target="_blank" class="social-link"><i class="fab fa-telegram"></i> Telegram-канал</a>
+                        <a href="https://www.instagram.com/status.morbi?igsh=ZWF0cWl0a3hncXgy" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram*</a>
+                    </div>
+                    <div class="footnote">* Meta Platforms Inc. признана экстремистской организацией и запрещена на территории РФ</div>
+                    <a href="https://t.me/dr_andryushin" target="_blank" class="telegram-direct"><i class="fab fa-telegram"></i> Связаться со мной: @dr_andryushin</a>
+                </div>
+            `;
+            if (container && !document.querySelector('.social-section')) {
+                container.insertAdjacentHTML('beforeend', socialHtml);
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        renderHome();
+    </script>
+</body>
+</html>
